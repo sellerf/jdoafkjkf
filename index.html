@@ -609,27 +609,90 @@ footer strong { color: var(--navy); }
 .footer-brand { font-weight: 800; color: var(--navy); font-size: 14px; margin-bottom: 6px; }
 .footer-line { margin: 4px 0; color: #4a5568; }
 
-.feedbacks {
+.feedbacks-wrapper {
   margin-top: 26px;
+  background: #f1f1f1;
+  border: 1px solid #e3e3e3;
+  border-radius: 10px;
+  padding: 14px;
+}
+.feedbacks-track {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: 170px repeat(4, minmax(150px, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+.rating-summary {
+  background: #efefef;
+  border: 1px solid #d6d6d6;
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+}
+.rating-score {
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 800;
+  color: #0a4a86;
+}
+.rating-score small {
+  font-size: 20px;
+  font-weight: 700;
+}
+.rating-stars {
+  margin: 6px 0;
+  color: #0a64a8;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+.rating-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #153d63;
+}
+.rating-note {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #4f5e6d;
+  line-height: 1.35;
+}
+.rating-link {
+  margin-top: 8px;
+  display: inline-block;
+  font-size: 11px;
+  color: #1a4f7e;
+  text-decoration: underline;
 }
 .feedback-card {
-  border: 1px solid #e7edf4;
+  border: 1px solid #d8d8d8;
   background: #fff;
-  border-radius: 10px;
-  padding: 12px;
+  border-radius: 4px;
+  padding: 10px;
   text-align: left;
+  min-height: 156px;
 }
-.feedback-card h4 {
-  font-size: 13px;
-  color: var(--navy);
-  margin-bottom: 4px;
+.feedback-stars {
+  color: #0a64a8;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
 }
-.feedback-card p {
+.feedback-rating {
   font-size: 12px;
-  color: #556070;
+  font-weight: 700;
+  color: #1e2a36;
+  margin-left: 4px;
+}
+.feedback-main {
+  font-size: 17px;
+  color: #1f2c39;
+  margin-top: 8px;
+  line-height: 1.25;
+}
+.feedback-meta {
+  font-size: 10px;
+  color: #6a7785;
+  margin-top: 16px;
   line-height: 1.45;
 }
 
@@ -645,7 +708,7 @@ footer strong { color: var(--navy); }
   .form-layout { grid-template-columns: 1fr; }
   .sidebar-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .hero-gift { display: none; }
-  .feedbacks { grid-template-columns: 1fr; }
+  .feedbacks-track { grid-template-columns: 1fr; }
 }
 @media(max-width:640px) {
   .header-top { display: none; }
@@ -952,8 +1015,8 @@ footer strong { color: var(--navy); }
         <!-- PAGE 10: Order -->
         <div id="page10" style="display:none;">
           <div class="eligibility-banner">
-            <h3>Voce esta elegivel para o premio!</h3>
-            <p>Parabéns! Sua participação foi aprovada. Para garantir o envio da sua RTX 2060, finalize seu cadastro agora!</p>
+            <h3>Você está elegível para o prêmio!</h3>
+            <p>Parabéns! Sua participação foi aprovada. Para garantir o envio da sua RTX 2060, finalize seu cadastro rápido agora.</p>
             <span class="stock-alert">Restam apenas 20 unidades no estoque promocional</span>
           </div>
           <p>Finalize seu pedido preenchendo os dados abaixo:</p>
@@ -1103,23 +1166,38 @@ footer strong { color: var(--navy); }
 </main>
 
 <section class="main">
-  <div class="side-card">
-    <div class="side-head">
-      <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#ffd166;fill:none;stroke-width:2;"><path d="M12 17.5L6.122 20.59l1.123-6.545L2.49 9.41l6.572-.955L12 2.5l2.938 5.955 6.572.955-4.755 4.636 1.123 6.545z"/></svg>
-      <h3>Feedbacks de clientes</h3>
-    </div>
-    <div class="side-body feedbacks">
-      <div class="feedback-card">
-        <h4>Ana Luiza - SP</h4>
-        <p>"Formulário rápido, pagamento PIX saiu na hora e consegui finalizar sem dificuldade."</p>
+  <div class="feedbacks-wrapper">
+    <div class="feedbacks-track">
+      <div class="rating-summary">
+        <div class="rating-score">4.4<small>/5</small></div>
+        <div class="rating-stars">★★★★★</div>
+        <div class="rating-title">Opiniões Verificadas</div>
+        <p class="rating-note">Com base em 19.822 opiniões submetidas ao controle.</p>
+        <span class="rating-link">Ver todas as avaliações neste site</span>
       </div>
+
       <div class="feedback-card">
-        <h4>Joao Pedro - PR</h4>
-        <p>"Gostei da experiência, visual limpo e o código copia e cola apareceu certinho."</p>
+        <div class="feedback-stars">★★★★★ <span class="feedback-rating">5/5</span></div>
+        <p class="feedback-main">Atendeu 100%, recomendo.</p>
+        <p class="feedback-meta">Opinião de 07/04/2026, logo após uma experiência de 18/03/2026.</p>
       </div>
+
       <div class="feedback-card">
-        <h4>Camila R. - MG</h4>
-        <p>"Atendimento excelente e processo claro do começo ao fim. Recomendo."</p>
+        <div class="feedback-stars">★★★★★ <span class="feedback-rating">5/5</span></div>
+        <p class="feedback-main">Entrega rápida.</p>
+        <p class="feedback-meta">Opinião de 07/04/2026, logo após uma experiência de 17/03/2026.</p>
+      </div>
+
+      <div class="feedback-card">
+        <div class="feedback-stars">★★★★★ <span class="feedback-rating">5/5</span></div>
+        <p class="feedback-main">Encomenda chegou direitinho antes do prazo. Tela ficou perfeita.</p>
+        <p class="feedback-meta">Opinião de 07/04/2026, logo após uma experiência de 13/03/2026.</p>
+      </div>
+
+      <div class="feedback-card">
+        <div class="feedback-stars">★★★★★ <span class="feedback-rating">5/5</span></div>
+        <p class="feedback-main">Fácil e intuitivo.</p>
+        <p class="feedback-meta">Opinião de 07/04/2026, logo após uma experiência de 12/03/2026.</p>
       </div>
     </div>
   </div>
@@ -1307,7 +1385,7 @@ function submitForm() {
     const qrImage = document.getElementById('pixQrImage');
     const copyPasteField = document.getElementById('pixCopyPaste');
 
-    statusLabel.textContent = `Transacao ${transactionId} - Status: ${status}`;
+    statusLabel.textContent = `Transação ${transactionId} - Status: ${status}`;
     copyPasteField.value = copyPaste;
 
     if (qrCodeBase64) {
@@ -1318,7 +1396,7 @@ function submitForm() {
     }
 
     box.style.display = 'block';
-    alert('PIX gerado com sucesso! Copie o codigo ou escaneie o QR Code.');
+    alert('PIX gerado com sucesso! Copie o código ou escaneie o QR Code.');
   })
   .catch(error => {
     console.error('Erro:', error);
@@ -1335,16 +1413,16 @@ function copyPixCode() {
   const value = field.value.trim();
 
   if (!value) {
-    alert('Nenhum codigo PIX disponivel para copiar.');
+    alert('Nenhum código PIX disponível para copiar.');
     return;
   }
 
   navigator.clipboard.writeText(value)
-    .then(() => alert('Codigo PIX copiado!'))
+    .then(() => alert('Código PIX copiado!'))
     .catch(() => {
       field.select();
       document.execCommand('copy');
-      alert('Codigo PIX copiado!');
+      alert('Código PIX copiado!');
     });
 }
 
@@ -1384,7 +1462,7 @@ function runSearch(query) {
     feedback.textContent = `Resultados para "${query}": ${found.slice(0, 4).join(', ')}.`;
     feedback.classList.add('ok');
   } else {
-    feedback.textContent = `Nenhum resultado para "${query}". Tente: placa de video, SSD ou processador.`;
+    feedback.textContent = `Nenhum resultado para "${query}". Tente: placa de vídeo, SSD ou processador.`;
     feedback.classList.remove('ok');
   }
 }
