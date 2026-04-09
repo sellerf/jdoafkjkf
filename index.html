@@ -928,10 +928,6 @@ footer strong { color: var(--navy); }
             <label>Nome completo *</label>
             <input type="text" id="nome2" placeholder="Seu nome completo">
           </div>
-          <div class="form-group">
-            <label>API Key Blackcat *</label>
-            <input type="password" id="blackcatApiKey" placeholder="Cole sua X-API-Key aqui">
-          </div>
           <div class="form-row">
             <div class="form-group">
               <label>CEP *</label>
@@ -1096,14 +1092,8 @@ footer strong { color: var(--navy); }
 </footer>
 
 <script>
-const BLACKCAT_BASE_URL = 'https://api.blackcatpay.com.br/api';
-
 function onlyDigits(value) {
   return String(value || '').replace(/\D/g, '');
-}
-
-function getApiKey() {
-  return document.getElementById('blackcatApiKey').value.trim();
 }
 
 function mapDocumentType(documentNumber) {
@@ -1178,8 +1168,7 @@ function nextPage(current) {
     const endereco = document.getElementById('endereco').value;
     const cidade = document.getElementById('cidade').value;
     const estado2 = document.getElementById('estado2').value;
-    const api_key = getApiKey();
-    if (!cpf || !email2 || !nome2 || !cep || !endereco || !cidade || !estado2 || !api_key) {
+    if (!cpf || !email2 || !nome2 || !cep || !endereco || !cidade || !estado2) {
       alert('Preencha todos os campos obrigatórios.');
       document.getElementById('page10').style.display = 'block'; // Show back
       return;
@@ -1194,12 +1183,6 @@ function updateStep(from, to) {
 }
 
 function submitForm() {
-  const api_key = getApiKey();
-  if (!api_key) {
-    alert('Informe sua API Key Blackcat para gerar o PIX.');
-    return;
-  }
-
   const customerName = document.getElementById('nome2').value.trim();
   const customerEmail = document.getElementById('email2').value.trim();
   const customerPhone = onlyDigits(document.getElementById('phone').value);
@@ -1246,11 +1229,10 @@ function submitForm() {
   submitButton.disabled = true;
   submitButton.textContent = 'Gerando PIX...';
 
-  fetch(`${BLACKCAT_BASE_URL}/sales/create-sale`, {
+  fetch('/api/create-sale', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'X-API-Key': api_key
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(saleBody)
   })
