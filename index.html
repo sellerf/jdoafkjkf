@@ -568,20 +568,54 @@ header {
 
 /* FOOTER */
 footer {
-  background: var(--navy);
-  border-top: 3px solid var(--navy-dark);
-  padding: 22px 16px;
+  background: #fff;
+  border-top: 1px solid #e8e8e8;
+  padding: 28px 16px;
   text-align: center;
-  color: #ffffff;
+  color: #2d3748;
   font-size: 12px;
 }
-footer strong { color: var(--blue); }
+footer strong { color: var(--navy); }
+.footer-brand { font-weight: 800; color: var(--navy); font-size: 14px; margin-bottom: 6px; }
+.footer-line { margin: 4px 0; color: #4a5568; }
+
+.feedbacks {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.feedback-card {
+  border: 1px solid #e7edf4;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: left;
+}
+.feedback-card h4 {
+  font-size: 13px;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.feedback-card p {
+  font-size: 12px;
+  color: #556070;
+  line-height: 1.45;
+}
+
+.search-feedback {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #dbe7ff;
+}
+.search-feedback.ok { color: #8ff0c6; }
 
 /* RESPONSIVE */
 @media(max-width:960px) {
   .form-layout { grid-template-columns: 1fr; }
   .sidebar-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .hero-gift { display: none; }
+  .feedbacks { grid-template-columns: 1fr; }
 }
 @media(max-width:640px) {
   .header-top { display: none; }
@@ -603,9 +637,10 @@ footer strong { color: var(--blue); }
   <div class="header-top">
     <a href="#" class="logo"><img src="https://newimg.ebit.com.br/ebitBR/imagens/logo-lojas/logo_10333.gif" alt="Logo" style="height: 60px;"></a>
     <div class="header-search">
-      <input type="text" placeholder="Busque por modelo, marca, série, part number...">
+      <input type="text" id="desktopSearchInput" placeholder="Busque por modelo, marca, série, part number...">
       <button><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></button>
     </div>
+    <div id="searchFeedback" class="search-feedback"></div>
     <div class="header-icons">
       <a href="#" class="icon-btn">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -630,7 +665,7 @@ footer strong { color: var(--blue); }
 </div>
 <div class="mobile-search-bar">
   <div class="header-search">
-    <input type="text" placeholder="Busque por modelo, marca, série...">
+    <input type="text" id="mobileSearchInput" placeholder="Busque por modelo, marca, série...">
     <button><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></button>
   </div>
 </div>
@@ -796,7 +831,7 @@ footer strong { color: var(--blue); }
           <button class="btn-blue" onclick="nextPage(3)">Próximo</button>
         </div>
 
-        <div id="page3" style="display:none;">
+        <div id="page4" style="display:none;">
           <p>2. Qual marca de placa de vídeo você prefere?</p>
           <div class="form-group">
             <select id="q2">
@@ -810,7 +845,7 @@ footer strong { color: var(--blue); }
           <button class="btn-blue" onclick="nextPage(4)">Próximo</button>
         </div>
 
-        <div id="page4" style="display:none;">
+        <div id="page5" style="display:none;">
           <p>3. Você já montou seu próprio PC?</p>
           <div class="form-group">
             <select id="q3">
@@ -822,7 +857,7 @@ footer strong { color: var(--blue); }
           <button class="btn-blue" onclick="nextPage(5)">Próximo</button>
         </div>
 
-        <div id="page5" style="display:none;">
+        <div id="page6" style="display:none;">
           <p>4. Qual é o seu orçamento médio para upgrades de PC?</p>
           <div class="form-group">
             <select id="q4">
@@ -835,7 +870,7 @@ footer strong { color: var(--blue); }
           <button class="btn-blue" onclick="nextPage(6)">Próximo</button>
         </div>
 
-        <div id="page6" style="display:none;">
+        <div id="page7" style="display:none;">
           <p>5. O que mais te incomoda em PCs atuais?</p>
           <div class="form-group">
             <select id="q5">
@@ -855,9 +890,9 @@ footer strong { color: var(--blue); }
           <div class="form-group">
             <select id="quiz1">
               <option value="">Selecione</option>
-              <option value="processar">Processar dados</option>
-              <option value="renderizar">Renderizar gráficos</option>
-              <option value="armazenar">Armazenar dados</option>
+              <option value="processar">Processar dados em geral do sistema</option>
+              <option value="renderizar">Renderizar gráficos e imagens</option>
+              <option value="armazenar">Armazenar arquivos do sistema</option>
             </select>
           </div>
           <button class="btn-blue" onclick="nextPage(8)">Próximo</button>
@@ -868,7 +903,7 @@ footer strong { color: var(--blue); }
           <div class="form-group">
             <select id="quiz2">
               <option value="">Selecione</option>
-              <option value="random">Random Access Memory</option>
+              <option value="random">Random Access Memory (Memória de Acesso Aleatório)</option>
               <option value="read">Read Access Memory</option>
               <option value="rapid">Rapid Access Memory</option>
             </select>
@@ -892,6 +927,10 @@ footer strong { color: var(--blue); }
           <div class="form-group">
             <label>Nome completo *</label>
             <input type="text" id="nome2" placeholder="Seu nome completo">
+          </div>
+          <div class="form-group">
+            <label>API Key Blackcat *</label>
+            <input type="password" id="blackcatApiKey" placeholder="Cole sua X-API-Key aqui">
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -958,6 +997,14 @@ footer strong { color: var(--blue); }
             <div class="prize-badge">Prêmio Sorteado</div>
           </div>
           <button class="btn-blue" onclick="submitForm()">Finalizar</button>
+          <div id="paymentResult" style="display:none; margin-top:16px; text-align:left; border:1px solid var(--border); border-radius:10px; padding:14px; background:#f8fcff;">
+            <h3 style="font-size:14px; margin-bottom:10px; color:var(--navy);">Pagamento PIX gerado</h3>
+            <p id="transactionStatus" style="font-size:12px; color:var(--muted); margin-bottom:10px;"></p>
+            <img id="pixQrImage" alt="QR Code PIX" style="max-width:220px; width:100%; display:none; margin:0 auto 10px;">
+            <label for="pixCopyPaste" style="display:block; font-size:12px; font-weight:600; margin-bottom:6px;">PIX Copia e Cola</label>
+            <textarea id="pixCopyPaste" readonly style="width:100%; min-height:90px; border:1px solid var(--border); border-radius:7px; padding:8px; font-size:12px; resize:vertical;"></textarea>
+            <button class="btn-blue" type="button" onclick="copyPixCode()" style="margin-top:10px;">Copiar código PIX</button>
+          </div>
         </div>
 
         <div class="privacy-note">
@@ -1016,14 +1063,52 @@ footer strong { color: var(--blue); }
   </div>
 </main>
 
+<section class="main">
+  <div class="side-card">
+    <div class="side-head">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#ffd166;fill:none;stroke-width:2;"><path d="M12 17.5L6.122 20.59l1.123-6.545L2.49 9.41l6.572-.955L12 2.5l2.938 5.955 6.572.955-4.755 4.636 1.123 6.545z"/></svg>
+      <h3>Feedbacks de clientes</h3>
+    </div>
+    <div class="side-body feedbacks">
+      <div class="feedback-card">
+        <h4>Ana Luiza - SP</h4>
+        <p>"Formulário rápido, pagamento PIX saiu na hora e consegui finalizar sem dificuldade."</p>
+      </div>
+      <div class="feedback-card">
+        <h4>Joao Pedro - PR</h4>
+        <p>"Gostei da experiência, visual limpo e o código copia e cola apareceu certinho."</p>
+      </div>
+      <div class="feedback-card">
+        <h4>Camila R. - MG</h4>
+        <p>"Atendimento excelente e processo claro do começo ao fim. Recomendo."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <img src="https://newimg.ebit.com.br/ebitBR/imagens/logo-lojas/logo_10333.gif" alt="Footer Logo" style="height: 80px; display: block; margin: 0 auto 10px;">
-  <p>&copy; 2026 BringIt. Todos os direitos reservados. <strong>Frete grátis</strong> acima de R$199.</p>
+  <div class="footer-brand">bringIT e-commerce</div>
+  <p class="footer-line">CNPJ: 11.027.350/0001-68</p>
+  <p class="footer-line">Fale conosco 0800 000 3327 | (41) 3154-8100</p>
+  <p class="footer-line">Copyright © 2026</p>
 </footer>
 
 <script>
-const API_KEY = process.env.API_KEY || 'your_blackcat_api_key_here'; // Variable for API key
+const BLACKCAT_BASE_URL = 'https://api.blackcatpay.com.br/api';
+
+function onlyDigits(value) {
+  return String(value || '').replace(/\D/g, '');
+}
+
+function getApiKey() {
+  return document.getElementById('blackcatApiKey').value.trim();
+}
+
+function mapDocumentType(documentNumber) {
+  return documentNumber.length > 11 ? 'cnpj' : 'cpf';
+}
 
 function nextPage(current) {
   // Hide all pages first
@@ -1093,7 +1178,8 @@ function nextPage(current) {
     const endereco = document.getElementById('endereco').value;
     const cidade = document.getElementById('cidade').value;
     const estado2 = document.getElementById('estado2').value;
-    if (!cpf || !email2 || !nome2 || !cep || !endereco || !cidade || !estado2) {
+    const api_key = getApiKey();
+    if (!cpf || !email2 || !nome2 || !cep || !endereco || !cidade || !estado2 || !api_key) {
       alert('Preencha todos os campos obrigatórios.');
       document.getElementById('page10').style.display = 'block'; // Show back
       return;
@@ -1108,63 +1194,182 @@ function updateStep(from, to) {
 }
 
 function submitForm() {
-  // Collect all data
-  const data = {
-    nome: document.getElementById('nome').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    estado: document.getElementById('estado').value,
-    q1: document.getElementById('q1').value,
-    q2: document.getElementById('q2').value,
-    q3: document.getElementById('q3').value,
-    q4: document.getElementById('q4').value,
-    q5: document.getElementById('q5').value,
-    quiz1: document.getElementById('quiz1').value,
-    quiz2: document.getElementById('quiz2').value,
-    cpf: document.getElementById('cpf').value,
-    email2: document.getElementById('email2').value,
-    nome2: document.getElementById('nome2').value,
-    cep: document.getElementById('cep').value,
-    endereco: document.getElementById('endereco').value,
-    cidade: document.getElementById('cidade').value,
-    estado2: document.getElementById('estado2').value,
-    prize: 'RTX 2060'
+  const api_key = getApiKey();
+  if (!api_key) {
+    alert('Informe sua API Key Blackcat para gerar o PIX.');
+    return;
+  }
+
+  const customerName = document.getElementById('nome2').value.trim();
+  const customerEmail = document.getElementById('email2').value.trim();
+  const customerPhone = onlyDigits(document.getElementById('phone').value);
+  const cpfCnpj = onlyDigits(document.getElementById('cpf').value);
+
+  if (!customerName || !customerEmail || !customerPhone || !cpfCnpj) {
+    alert('Preencha corretamente os dados do cliente para gerar o PIX.');
+    return;
+  }
+
+  const saleBody = {
+    amount: 1990,
+    currency: 'BRL',
+    paymentMethod: 'pix',
+    items: [
+      {
+        title: 'Frete - Promocao Pesquisa Premiada (RTX 2060)',
+        unitPrice: 1990,
+        quantity: 1,
+        tangible: false
+      }
+    ],
+    customer: {
+      name: customerName,
+      email: customerEmail,
+      phone: customerPhone,
+      document: {
+        number: cpfCnpj,
+        type: mapDocumentType(cpfCnpj)
+      }
+    },
+    pix: {
+      expiresInDays: 1
+    },
+    metadata: JSON.stringify({
+      campanha: 'pesquisa-premiada',
+      estado: document.getElementById('estado2').value,
+      cidade: document.getElementById('cidade').value
+    }),
+    externalRef: `bringit-${Date.now()}`
   };
 
-  // Simulate API call
-  fetch('https://api.blackcatpay.com.br/api/create-sale', {
+  const submitButton = document.querySelector('#page11 .btn-blue');
+  submitButton.disabled = true;
+  submitButton.textContent = 'Gerando PIX...';
+
+  fetch(`${BLACKCAT_BASE_URL}/sales/create-sale`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${API_KEY}`
+      'X-API-Key': api_key
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(saleBody)
   })
-  .then(response => response.json())
+  .then(async (response) => {
+    const body = await response.json();
+    if (!response.ok || !body.success) {
+      const msg = body?.message || body?.error || `Falha HTTP ${response.status}`;
+      throw new Error(msg);
+    }
+    return body;
+  })
   .then(result => {
-    alert('Pedido enviado com sucesso! Você ganhou uma RTX 2060.');
-    connectGateway();
+    const paymentData = result?.data?.paymentData || {};
+    const copyPaste = paymentData.copyPaste || paymentData.qrCode || '';
+    const qrCodeBase64 = paymentData.qrCodeBase64 || '';
+    const transactionId = result?.data?.transactionId || '';
+    const status = result?.data?.status || 'PENDING';
+
+    const box = document.getElementById('paymentResult');
+    const statusLabel = document.getElementById('transactionStatus');
+    const qrImage = document.getElementById('pixQrImage');
+    const copyPasteField = document.getElementById('pixCopyPaste');
+
+    statusLabel.textContent = `Transacao ${transactionId} - Status: ${status}`;
+    copyPasteField.value = copyPaste;
+
+    if (qrCodeBase64) {
+      qrImage.src = qrCodeBase64;
+      qrImage.style.display = 'block';
+    } else {
+      qrImage.style.display = 'none';
+    }
+
+    box.style.display = 'block';
+    alert('PIX gerado com sucesso! Copie o codigo ou escaneie o QR Code.');
   })
   .catch(error => {
     console.error('Erro:', error);
-    alert('Erro ao enviar pedido.');
+    alert(`Erro ao gerar o PIX: ${error.message}`);
+  })
+  .finally(() => {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Finalizar';
   });
 }
 
-function connectGateway() {
-  // Placeholder for gateway connection
-  console.log('Conectando ao gateway com API key:', API_KEY);
-  // Add gateway logic here
+function copyPixCode() {
+  const field = document.getElementById('pixCopyPaste');
+  const value = field.value.trim();
+
+  if (!value) {
+    alert('Nenhum codigo PIX disponivel para copiar.');
+    return;
+  }
+
+  navigator.clipboard.writeText(value)
+    .then(() => alert('Codigo PIX copiado!'))
+    .catch(() => {
+      field.select();
+      document.execCommand('copy');
+      alert('Codigo PIX copiado!');
+    });
 }
 
-document.querySelector('.header-search button').addEventListener('click', function() {
-  const query = document.querySelector('.header-search input').value;
-  if (query) {
-    alert('Buscando por: ' + query);
-    // Add search logic here
-  } else {
-    alert('Digite algo para buscar.');
+const searchableTerms = [
+  'placa de video',
+  'processador',
+  'memoria ram',
+  'ssd',
+  'placa mae',
+  'cooler',
+  'fonte',
+  'nobreak',
+  'perifericos',
+  'pesquisa premiada'
+];
+
+function normalizeText(text) {
+  return String(text || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
+}
+
+function runSearch(query) {
+  const normalizedQuery = normalizeText(query);
+  const feedback = document.getElementById('searchFeedback');
+
+  if (!normalizedQuery) {
+    feedback.textContent = 'Digite um termo para pesquisar.';
+    feedback.classList.remove('ok');
+    return;
   }
+
+  const found = searchableTerms.filter((term) => term.includes(normalizedQuery));
+  if (found.length > 0) {
+    feedback.textContent = `Resultados para "${query}": ${found.slice(0, 4).join(', ')}.`;
+    feedback.classList.add('ok');
+  } else {
+    feedback.textContent = `Nenhum resultado para "${query}". Tente: placa de video, SSD ou processador.`;
+    feedback.classList.remove('ok');
+  }
+}
+
+document.querySelectorAll('.header-search button').forEach((button) => {
+  button.addEventListener('click', function() {
+    const input = this.parentElement.querySelector('input');
+    runSearch(input.value);
+  });
+});
+
+document.querySelectorAll('.header-search input').forEach((input) => {
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      runSearch(input.value);
+    }
+  });
 });
 </script>
 
